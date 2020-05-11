@@ -30,13 +30,24 @@ public class NewWindow{
 
 		private static int counter = 0;
 
-		public NewFrame(){
+		public NewFrame(JButton main_button){
 
 			counter++;
 			setTitle("Window " + counter);
 			setBounds(40*counter,40*counter,400,200);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setVisible(true);
+
+			main_button.addActionListener(new CloseBtnListener());
+		}
+
+		private class CloseBtnListener implements ActionListener{
+
+			public void actionPerformed(ActionEvent e){
+
+				dispose();
+				counter=0;
+			}
 		}
 	}
 
@@ -47,22 +58,20 @@ public class NewWindow{
 
 		public MyPanel(){
 
-			newWindow.addActionListener(new BtnListener());
-			closeWindows.addActionListener(new BtnListener());
+			newWindow.addActionListener(new NewBtnListener());
 
 			add(newWindow);
 			add(closeWindows);
 
 		}
 
-		private class BtnListener implements ActionListener{
+		private class NewBtnListener implements ActionListener{
 
 			public void actionPerformed(ActionEvent e){
 
-				Object obj = e.getSource();
-
-				if(obj.equals(newWindow)) new NewFrame();
+				 new NewFrame(closeWindows);
 			}
 		}
+		
 	}
 }
